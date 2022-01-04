@@ -34,4 +34,12 @@ public record NameSorter(String delimiter, Reader reader, Writer writer) {
             exception.printStackTrace();
         }
     }
+
+    // build
+    public static void main(String[] args) throws Exception {
+        File in = new File(args[0]);
+        File out = new File(in.getParent(), in.getName().replaceAll(".txt", "-sorted.txt"));
+        var comparator = Comparator.comparing(TwoParam::firstParam).thenComparing(TwoParam::secondParam);
+        new NameSorter(", ", new FileReader(in), new FileWriter(out)).process(comparator);
+    }
 }
